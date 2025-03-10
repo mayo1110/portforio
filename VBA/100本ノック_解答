@@ -1,0 +1,140 @@
+https://excel-ubara.com/vba100/で提供されている練習問題の解答
+
+100本ノック　1本目
+Worksheets("Sheet1").Range("A1:C5”).Copy
+Worksheets("Sheet2").Range("A1:C5").Paste
+Application.CutCopyMode=False
+
+100本ノック　2本目
+Worksheets("Sheet1").Range("A1:C5”).Copy
+Worksheets("Sheet2").Range("A1:C5").xlPasteFormats
+Worksheets("Sheet2").Range("A1:C5").xlPasteValue
+Application.CutCopyMode=False
+
+100本ノック　3本目
+Dim lastrow As Integer
+lastrow=Cells(Rows.Count, 1).End(xlUp)
+Range(Range(“B2”),Cells(“lastrow,4”)”).ClearContents
+
+
+100本ノック　4本目
+Dim lastrow As Integer
+lastrow = Cells(Rows.Count, 1).End(xlUp)
+Range(Range(“B2”),Cells(“lastrow,4”).ClearContents
+
+100本ノック　5本目
+Dim i As Long
+Dim lastrow　As Integer
+lastrow=Cells(Rows.Count, 1).End(xlUp)
+
+For i = 3 To lastrow
+    If Cells(i, 2) = "" Or Cells(i, 3) = "" Then
+        Cells(i, 4) = ""
+    Else
+        Cells(i, 4) = Cells(i, 2) * Cells(i, 3)
+    End If
+Next
+Columns("D").NumberFormatLocal = "\#,##0"
+
+
+100本ノック　6本目
+Dim i As Long
+For i = 2 To Cells(Rows.Count, 1).End(xlUp).Row
+    If Not Cells(i, 1) Like "*-*" Then
+        Cells(i, 4).FormulaR1C1 = "=RC[-2]*RC[-1]"
+    End If
+Next
+
+100本ノック　7本目
+Dim i As Long
+Dim d As Variant
+
+For I=2 To Cells(Rows.Count, 1).End(xlUp).Row
+	d=Replace(Cells(i,1).Value,”.”,”/“)
+	If lsDate(d) Then
+		d=CDate(d)
+		Cells(i,2)=Format(DateSerial(Year(d),Month(d)+1,0),”’mmdd”)
+	Else
+		Cells(i,2)=“”
+	End If
+Next
+
+100本ノック　8本目
+Dim ws As Worksheet
+Set ws=Worksheets(“成績表”)
+
+Dim i As Long,j As Long,t As Long
+
+For I=2 To ws.Cells(ws.Rows.Count,1).End(xlUp).Row
+	t=0
+
+	For j=2 To 6
+		If ws.Cells(i,j)<50 Then
+			t=0
+			Exit For
+		End If
+		t=t+ws.Cells(i,j)
+	Next
+	ws.Cells(i,7)=“”
+	If t>=350 Then
+		ws.cells(i,7)=“合格”
+	End If
+Next		
+
+
+100本ノック　9本目
+Dim wsIn As Worksheet
+Dim wsOut As Worksheet
+　　
+On Error Resume Next
+Application.DisplayAlerts = False
+Worksheets("合格者").Delete
+Application.DisplayAlerts = True
+On Error GoTo 0
+　　
+Set wsIn = Worksheets("成績表")
+Set wsOut = Worksheets.Add(After:=wsIn)
+wsOut.Name = "合格者"
+　　
+wsIn.AutoFilterMode = False
+With wsIn.Range("A1").CurrentRegion
+　　.AutoFilter Field:=7, Criteria1:="合格"
+　　.Columns(1).Copy wsOut.Range("A1")
+End With
+wsIn.AutoFilterMode = False
+
+100本ノック　10本目
+Dim ws As Worksheet
+Set ws = Worksheets("受注")
+　　
+Application.ScreenUpdating = False
+ws.AutoFilterMode = False
+　　
+Dim rng As Range
+With ws.Range("A1").CurrentRegion
+　　.AutoFilter field:=3, Criteria1:=""
+　　.AutoFilter field:=4, Criteria1:="*削除*", Operator:=xlOr, Criteria2:="*不要*"
+　　Set rng = Intersect(.Offset(1), .SpecialCells(xlCellTypeVisible))
+　　If Not rng Is Nothing Then rng.EntireRow.Delete
+End With
+　　
+ws.AutoFilterMode = False
+Application.ScreenUpdating = True
+
+100本ノック　11本目
+Dim ws As Worksheet
+Set ws = Worksheets("受注")
+　　
+Application.ScreenUpdating = False
+ws.AutoFilterMode = False
+　　
+Dim rng As Range
+With ws.Range("A1").CurrentRegion
+　　.AutoFilter field:=3, Criteria1:=""
+　　.AutoFilter field:=4, Criteria1:="*削除*", Operator:=xlOr, Criteria2:="*不要*"
+　　Set rng = Intersect(.Offset(1), .SpecialCells(xlCellTypeVisible))
+　　If Not rng Is Nothing Then rng.EntireRow.Delete
+End With
+　　
+ws.AutoFilterMode = False
+Application.ScreenUpdating = True
